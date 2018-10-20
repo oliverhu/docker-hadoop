@@ -3,10 +3,10 @@ MAINTAINER Ivan Ermilov <ivan.s.ermilov@gmail.com>
 
 RUN echo "deb http://ftp.debian.org/debian jessie-backports main" >> /etc/apt/sources.list
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y openjdk-8-jdk
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y openjdk-8-jdk --fix-missing
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y net-tools curl
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y net-tools curl --fix-missing
 
 RUN gpg --keyserver pool.sks-keyservers.net --recv-keys \
     07617D4968B34D8F13D56E20BE5AAA0BA210C095 \
@@ -69,7 +69,7 @@ ENV PATH $HADOOP_PREFIX/bin/:$PATH
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod a+x /entrypoint.sh
 
-RUN apt-get -y install docker-ce
+RUN apt-get -y install docker-ce --fix-missing
 RUN bash service docker start
 
 ENTRYPOINT ["/entrypoint.sh"]
