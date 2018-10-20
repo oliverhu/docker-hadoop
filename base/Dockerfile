@@ -22,7 +22,8 @@ ENV PATH $HADOOP_PREFIX/bin/:$PATH
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod a+x /entrypoint.sh
 
-RUN apt-get -y install docker-ce --fix-missing
-RUN bash service docker start
+RUN echo "deb https://download.docker.com/linux/debian jessie stable" >> /etc/apt/sources.list
+RUN curl -fsSl https://download.docker.com/linux/debian/gpg | apt-get key add -
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install docker-ce --fix-missing
 
 ENTRYPOINT ["/entrypoint.sh"]
