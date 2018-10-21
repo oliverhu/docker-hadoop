@@ -35,7 +35,7 @@ ENV MULTIHOMED_NETWORK=1
 ENV USER=root
 ENV PATH $HADOOP_PREFIX/bin/:$PATH
 
-RUN apt-get update && \
+RUN apt-get update
 RUN apt-get -y install apt-transport-https \
      ca-certificates \
      curl \
