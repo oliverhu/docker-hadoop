@@ -10,7 +10,7 @@ services:
       - CLUSTER_NAME=test
     env_file:
       - ./hadoop.env
-  
+
   resourcemanager:
     image: bde2020/hadoop-resourcemanager:1.1.0-hadoop2.7.1-java8
     container_name: resourcemanager
@@ -20,7 +20,7 @@ services:
       - datanode2
     env_file:
       - ./hadoop.env
-  
+
   historyserver:
     image: bde2020/hadoop-historyserver:1.1.0-hadoop2.7.1-java8
     container_name: historyserver
@@ -32,7 +32,7 @@ services:
       - hadoop_historyserver:/hadoop/yarn/timeline
     env_file:
       - ./hadoop.env
-  
+
   nodemanager1:
     image: bde2020/hadoop-nodemanager:1.1.0-hadoop2.7.1-java8
     container_name: nodemanager1
@@ -42,7 +42,7 @@ services:
       - datanode2
     env_file:
       - ./hadoop.env
-  
+
   datanode1:
     image: bde2020/hadoop-datanode:1.1.0-hadoop2.7.1-java8
     container_name: datanode1
