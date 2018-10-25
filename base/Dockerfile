@@ -9,6 +9,7 @@ RUN apt-get update && \
     apt-get update && \
     echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections && \
     apt-get install -y oracle-java8-installer && \
+    apt-get install -y vim && \
     apt-get clean
 
 ENV JAVA_HOME=/usr/lib/jvm/java-8-oracle/
@@ -49,6 +50,7 @@ RUN add-apt-repository \
 RUN apt-get update
 RUN apt-get -y install docker-ce
 
+RUN groupadd hadoop
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod a+x /entrypoint.sh
 

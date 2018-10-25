@@ -31,6 +31,16 @@ function configure() {
     done
 }
 
+echo """
+yarn.nodemanager.linux-container-executor.group=hadoop
+[docker]
+  module.enabled=true
+  docker.allowed.capabilities=SYS_CHROOT,MKNOD,SETFCAP,SETPCAP,FSETID,CHOWN,AUDIT_WRITE,SETGID,NET_RAW,FOWNER,SETUID,DAC_OVERRIDE,KILL,NET_BIND_SERVICE
+  docker.allowed.networks=bridge,host,none
+  docker.allowed.ro-mounts=/sys/fs/cgroup
+  docker.allowed.rw-mounts=/var/hadoop/yarn/local-dir,/var/hadoop/yarn/log-dir
+""" >> /etc/hadoop/container-executor.cfg
+
 configure /etc/hadoop/core-site.xml core CORE_CONF
 configure /etc/hadoop/hdfs-site.xml hdfs HDFS_CONF
 configure /etc/hadoop/yarn-site.xml yarn YARN_CONF
@@ -49,6 +59,13 @@ if [ "$MULTIHOMED_NETWORK" = "1" ]; then
     addProperty /etc/hadoop/hdfs-site.xml dfs.datanode.use.datanode.hostname true
 
     # YARN
+    addProperty /etc/hadoop/yarn-site.xml yarn.nodemanager.container-executor.class org.apache.hadoop.yarn.server.nodemanager.LinuxContainerExecutor
+    addProperty /etc/hadoop/yarn-site.xml yarn.nodemanager.linux-container-executor.group hadoop
+    addProperty /etc/hadoop/yarn-site.xml yarn.nodemanager.linux-container-executor.nonsecure-mode.limit-users false
+    addProperty /etc/hadoop/yarn-site.xml yarn.nodemanager.runtime.linux.allowed-runtimes default,docker
+    addProperty /etc/hadoop/yarn-site.xml yarn.nodemanager.runtime.linux.docker.allowed-container-networks host,none,bridge
+    addProperty /etc/hadoop/yarn-site.xml yarn.nodemanager.runtime.linux.docker.default-container-network host
+
     addProperty /etc/hadoop/yarn-site.xml yarn.resourcemanager.bind-host 0.0.0.0
     addProperty /etc/hadoop/yarn-site.xml yarn.nodemanager.bind-host 0.0.0.0
     addProperty /etc/hadoop/yarn-site.xml yarn.nodemanager.bind-host 0.0.0.0
