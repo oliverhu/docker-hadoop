@@ -94,6 +94,9 @@ if [ -n "$GANGLIA_HOST" ]; then
         echo "$module.sink.ganglia.servers=$GANGLIA_HOST:8649"
     done > /etc/hadoop/hadoop-metrics2.properties
 fi
+chmod 0400 /etc/hadoop/container-executor.cfg
+chown root:hadoop /opt/hadoop-$HADOOP_VERSION/bin/container-executor
+chmod 6050 /opt/hadoop-$HADOOP_VERSION/bin/container-executor
 
 service docker start
 exec $@
