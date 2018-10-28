@@ -38,7 +38,6 @@ yarn.nodemanager.linux-container-executor.group=hadoop
   docker.allowed.capabilities=SYS_CHROOT,MKNOD,SETFCAP,SETPCAP,FSETID,CHOWN,AUDIT_WRITE,SETGID,NET_RAW,FOWNER,SETUID,DAC_OVERRIDE,KILL,NET_BIND_SERVICE
   docker.allowed.networks=bridge,host,none
   docker.allowed.ro-mounts=/sys/fs/cgroup
-  # docker.allowed.rw-mounts=/var/hadoop/yarn/local-dir,/var/hadoop/yarn/log-dir
 """ >> /etc/hadoop/container-executor.cfg
 
 configure /etc/hadoop/core-site.xml core CORE_CONF
