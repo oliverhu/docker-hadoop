@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set some sensible defaults
-export CORE_CONF_fs_defaultFS=${CORE_CONF_fs_defaultFS:-hdfs://`hostname -f`:8020}
+export CORE_CONF_fs_defaultFS=${CORE_CONF_fs_defaultFS:-hdfs://192.168.0.14:8020}
 
 function addProperty() {
   local path=$1
@@ -50,10 +50,10 @@ if [ "$MULTIHOMED_NETWORK" = "1" ]; then
     echo "Configuring for multihomed network"
 
     # HDFS
-    addProperty /etc/hadoop/hdfs-site.xml dfs.namenode.rpc-bind-host 0.0.0.0
-    addProperty /etc/hadoop/hdfs-site.xml dfs.namenode.servicerpc-bind-host 0.0.0.0
-    addProperty /etc/hadoop/hdfs-site.xml dfs.namenode.http-bind-host 0.0.0.0
-    addProperty /etc/hadoop/hdfs-site.xml dfs.namenode.https-bind-host 0.0.0.0
+    addProperty /etc/hadoop/hdfs-site.xml dfs.namenode.rpc-bind-host 192.168.0.14 
+    addProperty /etc/hadoop/hdfs-site.xml dfs.namenode.servicerpc-bind-host 192.168.0.14
+    addProperty /etc/hadoop/hdfs-site.xml dfs.namenode.http-bind-host 192.168.0.14 
+    addProperty /etc/hadoop/hdfs-site.xml dfs.namenode.https-bind-host 192.168.0.14
     addProperty /etc/hadoop/hdfs-site.xml dfs.client.use.datanode.hostname true
     addProperty /etc/hadoop/hdfs-site.xml dfs.datanode.use.datanode.hostname true
 
@@ -65,13 +65,13 @@ if [ "$MULTIHOMED_NETWORK" = "1" ]; then
     addProperty /etc/hadoop/yarn-site.xml yarn.nodemanager.runtime.linux.docker.allowed-container-networks host,none,bridge
     addProperty /etc/hadoop/yarn-site.xml yarn.nodemanager.runtime.linux.docker.default-container-network host
 
-    addProperty /etc/hadoop/yarn-site.xml yarn.resourcemanager.bind-host 0.0.0.0
-    addProperty /etc/hadoop/yarn-site.xml yarn.nodemanager.bind-host 0.0.0.0
-    addProperty /etc/hadoop/yarn-site.xml yarn.nodemanager.bind-host 0.0.0.0
-    addProperty /etc/hadoop/yarn-site.xml yarn.timeline-service.bind-host 0.0.0.0
+    addProperty /etc/hadoop/yarn-site.xml yarn.resourcemanager.bind-host 192.168.0.14
+    addProperty /etc/hadoop/yarn-site.xml yarn.nodemanager.bind-host 192.168.0.14
+    addProperty /etc/hadoop/yarn-site.xml yarn.nodemanager.bind-host 192.168.0.14
+    addProperty /etc/hadoop/yarn-site.xml yarn.timeline-service.bind-host 192.168.0.14
 
     # MAPRED
-    addProperty /etc/hadoop/mapred-site.xml yarn.nodemanager.bind-host 0.0.0.0
+    addProperty /etc/hadoop/mapred-site.xml yarn.nodemanager.bind-host 192.168.0.14
 fi
 
 if [ -n "$GANGLIA_HOST" ]; then
