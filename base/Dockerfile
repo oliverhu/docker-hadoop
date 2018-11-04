@@ -50,8 +50,34 @@ RUN add-apt-repository \
 RUN apt-get update
 RUN apt-get -y install docker-ce
 
-RUN groupadd hadoop
+RUN groupadd -g 5000 hadoop
+RUN useradd -u 503 -g hadoop pi
+RUN chown -R pi:hadoop /opt/hadoop-2.9.1
+RUN chmod -R 777 /opt/hadoop-2.9.1
+
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod a+x /entrypoint.sh
 
+ENV HADOOP_HOME=/opt/hadoop-2.9.1
+ENV PATH=$PATH:$HADOOP_HOME/bin
+ENV PATH=$PATH:$HADOOP_HOME/sbin
+ENV HADOOP_MAPRED_HOME=$HADOOP_HOME
+ENV HADOOP_COMMON_HOME=$HADOOP_HOME
+ENV HADOOP_HDFS_HOME=$HADOOP_HOME
+ENV YARN_HOME=$HADOOP_HOME
+ENV HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
+ENV HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib"
+
 ENTRYPOINT ["/entrypoint.sh"]
+USER pi
+WORKDIR /home/pi
+ENV HADOOP_HOME=/opt/hadoop-2.9.1
+ENV PATH=$PATH:$HADOOP_HOME/bin
+ENV PATH=$PATH:$HADOOP_HOME/sbin
+ENV HADOOP_MAPRED_HOME=$HADOOP_HOME
+ENV HADOOP_COMMON_HOME=$HADOOP_HOME
+ENV HADOOP_HDFS_HOME=$HADOOP_HOME
+ENV YARN_HOME=$HADOOP_HOME
+ENV HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
+ENV HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib"
+
